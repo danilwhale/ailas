@@ -12,15 +12,15 @@
   "tooltip.waila.power": "Stärke: %d",
   "tooltip.waila.health": "%s/%s Gesundheit",
   "tooltip.waila.sneak_for_details":  "Schleiche für Details",
- 
+
   "gui.waila.configuration": "%s Konfiguration",
   "gui.waila.waila_settings": "%s Einstellung",
   "gui.waila.plugin_settings": "Plugin Einstellungen",
- 
+
   "key.waila.config": "Öffne Einstellungen",
   "key.waila.show_overlay": "Zeige Oberfläche",
   "key.waila.toggle_liquid": "Flüssigkeiten anzeigen/verstecken",
- 
+
   "config.waila.general": "Allgemeines",
   "config.waila.display_tooltip": "Tooltip anzeigen",
   "config.waila.display_tooltip_desc": "Sammle Daten und zeige Tooltip an",
@@ -40,14 +40,14 @@
   "config.waila.display_item_desc": "Zeige das Item vom Block",
   "config.waila.tts": "Aktiviere TTS",
   "config.waila.tts_desc": "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
- 
+
   "config.waila.overlay": "Oberfläche",
   "config.waila.overlay_pos_x": "Horizontale Ausrichtung",
   "config.waila.overlay_pos_y": "Vertikale Ausrichtung",
-  "config.waila.overlay_scale": "Zeige Skala",
- 
+  "config.waila.overlay_size": "Zeige Skala",
+
   "config.waila.overlay_color": "Farbe",
- 
+
   "config.waila.formatting": "Formation",
   "config.waila.format_mod_name": "Modname",
   "config.waila.format_block_name": "Blockname",

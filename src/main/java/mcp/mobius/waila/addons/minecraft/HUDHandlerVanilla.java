@@ -6,10 +6,12 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.block.state.property.ComparatorMode;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -17,6 +19,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.resource.Identifier;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -37,12 +40,26 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
         if (accessor.getBlock() == Blocks.BEETROOTS)
             return new ItemStack(Items.BEETROOT);
 
+		if (accessor.getBlockEntity() instanceof SkullBlockEntity) {
+			SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+			if (skull.getProfile() != null) {
+				ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
+				NbtCompound tag = new NbtCompound();
+				tag.put("SkullOwner", NbtUtils.writeProfile(new NbtCompound(), skull.getProfile()));
+				stack.setNbt(tag);
+				return stack;
+			}
+		}
+
         return ItemStack.EMPTY;
     }
 
     @Override
     public void appendHead(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        if (accessor.getBlock() == Blocks.MOB_SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
+		if (config.get(PluginMinecraft.CONFIG_HIDE_SILVERFISH) && accessor.getBlock() instanceof InfestedBlock)
+			((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getStack().getDisplayName().getFormattedString())));
+
+		if (accessor.getBlock() == Blocks.MOB_SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
             ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableText(accessor.getBlock().getTranslationKey())
                     .append(new LiteralText(" ("))
@@ -64,7 +81,9 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
                 addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_2) / 2.0F);
             } else if (accessor.getBlock() == Blocks.SWEET_BERRY_BUSH) {
                 addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_3) / 3.0F);
-            }
+			} else if (accessor.getBlock() == Blocks.NETHER_WART) {
+				addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_3) / 3.0F);
+			}
         }
 
         if (config.get(PluginMinecraft.CONFIG_LEVER) && accessor.getBlock() instanceof LeverBlock) {
@@ -75,13 +94,13 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
         if (config.get(PluginMinecraft.CONFIG_REPEATER) && accessor.getBlock() == Blocks.REPEATER) {
             int delay = accessor.getBlockState().get(Properties.DELAY);
-            tooltip.add(new TranslatableText("waila.tooltip.delay", delay));
+            tooltip.add(new TranslatableText("tooltip.waila.delay", delay));
             return;
         }
 
         if (config.get(PluginMinecraft.CONFIG_COMPARATOR) && accessor.getBlock() == Blocks.COMPARATOR) {
             ComparatorMode mode = accessor.getBlockState().get(Properties.COMPARATOR_MODE);
-            tooltip.add(new TranslatableText("tooltip.waila.mode", new TranslatableText("tooltip.waila.mode_." + (mode == ComparatorMode.COMPARE ? "comparator" : "subtractor"))));
+            tooltip.add(new TranslatableText("tooltip.waila.mode", new TranslatableText("tooltip.waila.mode_" + (mode == ComparatorMode.COMPARE ? "comparator" : "subtractor"))));
             return;
         }
 
@@ -96,6 +115,12 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
             else
                 tooltip.add(new TranslatableText("tooltip.waila.empty"));
         }
+
+		if (config.get(PluginMinecraft.CONFIG_PLAYER_HEAD_NAME) && accessor.getBlockEntity() instanceof SkullBlockEntity) {
+			SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+			if (skull.getProfile() != null && !StringUtils.isBlank(skull.getProfile().getName()))
+				tooltip.add(new LiteralText(skull.getProfile().getName()));
+		}
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.options.KeyBinding;
 import net.ornithemc.osl.entrypoints.api.client.ClientModInitializer;
 import net.ornithemc.osl.keybinds.api.KeyBindingEvents;
+import org.lwjgl.glfw.GLFW;
 
 import java.lang.reflect.Method;
 
@@ -23,9 +24,9 @@ public class WailaClient implements ClientModInitializer {
         ClientNetworkHandler.init();
 
 		KeyBindingEvents.REGISTER_KEYBINDS.register(registry -> {
-			openConfig = new KeyBinding("key.waila.config", 320, Waila.NAME);
-			showOverlay = new KeyBinding("key.waila.show_overlay", 321, Waila.NAME);
-			toggleLiquid = new KeyBinding("key.waila.toggle_liquid", 322, Waila.NAME);
+			openConfig = new KeyBinding("key.waila.config", GLFW.GLFW_KEY_KP_0, Waila.NAME);
+			showOverlay = new KeyBinding("key.waila.show_overlay", GLFW.GLFW_KEY_KP_1, Waila.NAME);
+			toggleLiquid = new KeyBinding("key.waila.toggle_liquid", GLFW.GLFW_KEY_KP_2, Waila.NAME);
 			registry.register(openConfig);
 			registry.register(showOverlay);
 			registry.register(toggleLiquid);
@@ -37,8 +38,8 @@ public class WailaClient implements ClientModInitializer {
 
     private static void enableModMenuConfig() {
         try {
-            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.api.ModMenuApi");
-            Method addConfigOverride_ = modMenuApi_.getMethod("addConfigOverride", String.class, Runnable.class);
+            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.ModMenu");
+            Method addConfigOverride_ = modMenuApi_.getMethod("addLegacyConfigScreenTask", String.class, Runnable.class);
             addConfigOverride_.invoke(null, Waila.MODID, (Runnable) () -> Minecraft.getInstance().openScreen(new GuiConfigHome(null)));
         } catch (Exception e) {
             Waila.LOGGER.error("Error enabling the Mod Menu config button for Hwyla", e);

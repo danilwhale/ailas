@@ -67,7 +67,7 @@ public class OverlayRenderer {
         GlStateManager.pushMatrix();
         saveGLState();
 
-        GlStateManager.scalef(Waila.CONFIG.get().getOverlay().getOverlayScale(), Waila.CONFIG.get().getOverlay().getOverlayScale(), 1.0F);
+        GlStateManager.scalef(Waila.CONFIG.get().getOverlay().getOverlaySize().scale, Waila.CONFIG.get().getOverlay().getOverlaySize().scale, 1.0F);
 
         GlStateManager.disableRescaleNormal();
         Lighting.turnOff();

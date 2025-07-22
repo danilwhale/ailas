@@ -25,8 +25,8 @@ public class Tooltip {
     private final boolean showItem;
     private final Dimension totalSize;
 
-    public Tooltip(List<Text> components, boolean showItem) {
-        WailaTooltipEvent event = new WailaTooltipEvent(components, DataAccessor.INSTANCE);
+    public Tooltip(List<Text> Texts, boolean showItem) {
+        WailaTooltipEvent event = new WailaTooltipEvent(Texts, DataAccessor.INSTANCE);
         WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(event);
 
         this.client = Minecraft.getInstance();
@@ -34,17 +34,17 @@ public class Tooltip {
         this.showItem = showItem;
         this.totalSize = new Dimension();
 
-        computeLines(components);
+        computeLines(Texts);
         addPadding();
     }
 
-    public void computeLines(List<Text> components) {
-        components.forEach(c -> {
-            Dimension size = getLineSize(c, components);
+    public void computeLines(List<Text> Texts) {
+        Texts.forEach(c -> {
+            Dimension size = getLineSize(c, Texts);
             totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
             Text Text = c;
             if (Text instanceof TaggedTextComponent)
-                Text = ((ITaggableList<Identifier, Text>) components).getTag(((TaggedTextComponent) Text).getTag());
+                Text = ((ITaggableList<Identifier, Text>) Texts).getTag(((TaggedTextComponent) Text).getTag());
 
             lines.add(new Line(Text, size));
         });
@@ -79,9 +79,9 @@ public class Tooltip {
         }
     }
 
-    private Dimension getLineSize(Text Text, List<Text> components) {
-        if (Text instanceof RenderableTextComponent) {
-            RenderableTextComponent renderable = (RenderableTextComponent) Text;
+    private Dimension getLineSize(Text text, List<Text> texts) {
+        if (text instanceof RenderableTextComponent) {
+            RenderableTextComponent renderable = (RenderableTextComponent) text;
             List<RenderableTextComponent.RenderContainer> renderers = renderable.getRenderers();
             if (renderers.isEmpty())
                 return new Dimension(0, 0);
@@ -95,15 +95,15 @@ public class Tooltip {
             }
 
             return new Dimension(width, height);
-        } else if (Text instanceof TaggedTextComponent) {
-            TaggedTextComponent tagged = (TaggedTextComponent) Text;
-            if (components instanceof TaggableList) {
-                Text taggedLine = ((TaggableList<Identifier, Text>) components).getTag(tagged.getTag());
-                return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, components);
+        } else if (text instanceof TaggedTextComponent) {
+            TaggedTextComponent tagged = (TaggedTextComponent) text;
+            if (texts instanceof TaggableList) {
+                Text taggedLine = ((TaggableList<Identifier, Text>) texts).getTag(tagged.getTag());
+                return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, texts);
             }
         }
 
-        return new Dimension(client.textRenderer.getWidth(Text.getFormattedString()), client.textRenderer.fontHeight + 1);
+        return new Dimension(client.textRenderer.getWidth(text.getFormattedString()), client.textRenderer.fontHeight + 1);
     }
 
     public List<Line> getLines() {
@@ -116,12 +116,29 @@ public class Tooltip {
 
     public Rectangle getPosition() {
         Window window = Minecraft.getInstance().window;
-        return new Rectangle(
-                (int) (window.getGuiScaledWidth() * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
-                (int) (window.getGuiScaledHeight() * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
-                totalSize.width,
-                totalSize.height
+		WailaConfig.ConfigOverlay.SizeChoice overlaySize = Waila.CONFIG.get().getOverlay().getOverlaySize();
+
+		Rectangle position = new Rectangle(
+			(int) ((window.getGuiScaledWidth() * overlaySize.multiplier) * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
+			(int) ((window.getGuiScaledHeight() * overlaySize.multiplier) * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
+			totalSize.width,
+			totalSize.height
         );
+
+		position.x *= overlaySize.multiplier;
+		position.y *= overlaySize.multiplier;
+
+		// Fix position to stay on screen
+		if (position.x - position.width / 2 < 0)
+			position.x = 0;
+
+		if (position.x + position.width > Minecraft.getInstance().window.getGuiScaledWidth() * overlaySize.multiplier)
+			position.x = (int) (Minecraft.getInstance().window.getGuiScaledWidth() * overlaySize.multiplier - position.width - 1);
+
+		if (position.y + position.height > Minecraft.getInstance().window.getGuiScaledHeight())
+			position.y = (int) (Minecraft.getInstance().window.getGuiScaledHeight() * overlaySize.multiplier - position.height - 1);
+
+		return position;
     }
 
     public static class Line {

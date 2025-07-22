@@ -140,6 +140,7 @@ public class ModIdentification {
         }
 
         @Override
+		@Deprecated
         public boolean containsCustomElement(String key) {
             return false;
         }

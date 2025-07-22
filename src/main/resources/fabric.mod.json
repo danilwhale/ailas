@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "waila",
-  "version": "1.9.17",
+  "version": "${version}",
   "custom": {
     "waila:plugins": [
       {
@@ -72,7 +72,9 @@
     "SinusoidalC",
     "viliml",
     "Eracer",
-    "odininon"
+    "odininon",
+    "Artoria2e5",
+    "plusls"
   ],
 
   "depends": {

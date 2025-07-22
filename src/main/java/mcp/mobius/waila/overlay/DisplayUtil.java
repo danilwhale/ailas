@@ -50,6 +50,7 @@ public class DisplayUtil {
             GlStateManager.disableLighting();
             GlStateManager.disableDepthTest();
             GlStateManager.disableBlend();
+			GlStateManager.translated(0, 0, Minecraft.getInstance().getItemRenderer().zOffset + 200F);
             fr.drawWithShadow(s, (float) (xPosition + 19 - 2 - fr.getWidth(s)), (float) (yPosition + 6 + 3), 16777215);
             GlStateManager.enableLighting();
             GlStateManager.enableDepthTest();

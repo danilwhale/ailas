@@ -1,30 +1,88 @@
 {
-	"schemaVersion": 1,
-	"id": "example_mod",
-	"version": "${version}",
-	"name": "Example mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://example.com/",
-		"sources": "https://github.com/OrnitheMC/ornithe-template-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/example_mod/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"init": [
-			"com.example.example_mod.ExampleMod"
-		]
-	},
-	"mixins": [
-		"example_mod.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.14.21",
-		"minecraft": "1.7.2",
-		"osl-entrypoints": ">=0.4.0"
-	}
+  "schemaVersion": 1,
+  "id": "waila",
+  "version": "1.9.17",
+  "custom": {
+    "waila:plugins": [
+      {
+        "id": "waila:core",
+        "initializer": "mcp.mobius.waila.addons.core.PluginCore"
+      },
+      {
+        "id": "waila:vanilla",
+        "initializer": "mcp.mobius.waila.addons.minecraft.PluginMinecraft"
+      }
+    ]
+  },
+
+  "entrypoints": {
+    "init": [
+      "mcp.mobius.waila.Waila"
+    ],
+    "client-init": [
+      "mcp.mobius.waila.WailaClient"
+    ]
+  },
+  "mixins": [
+    "waila.mixins.json"
+  ],
+
+  "name": "Hwyla",
+  "description": "What am I looking at?",
+  "icon": "assets/waila/icon.png",
+  "contact": {
+    "homepage": "https://minecraft.curseforge.com/projects/hwyla",
+    "issues": "https://github.com/TehNut/Hwyla/issues",
+    "sources": "https://github.com/TehNut/Hwyla"
+  },
+  "license": "CC BY NC SA 4.0",
+  "authors": [
+    {
+      "name": "Nicholas \"TehNut\" Ignoffo",
+      "contact": {
+        "email": "nick@tehnut.info",
+        "homepage": "https://tehnut.info"
+      }
+    },
+    {
+      "name": "ProfMobius",
+      "contact": {
+        "homepage": "https://twitter.com/profmobius"
+      }
+    }
+  ],
+  "contributors": [
+    "InsomniaKitten",
+    "Girafi",
+    "Vexatos",
+    "gigabit101",
+    "Lordmau5",
+    "MrNinja93",
+    "tambry",
+    "magik6k",
+    "Parker8283",
+    "Sven792",
+    "3TUSK",
+    "Foxgreat",
+    "josephcsible",
+    "RCXcrafter",
+    "shadowfacts",
+    "X00LA",
+    "crafteverywhere",
+    "SinusoidalC",
+    "viliml",
+    "Eracer",
+    "odininon"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "1.14.4",
+    "osl-entrypoints": ">=0.4.0",
+    "osl-networking": ">=0.4.0",
+    "osl-keybinds": ">=0.1.0"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
 }

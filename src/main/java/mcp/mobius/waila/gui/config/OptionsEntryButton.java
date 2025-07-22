@@ -1,0 +1,36 @@
+package mcp.mobius.waila.gui.config;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.unmapped.C_0818095;
+
+public class OptionsEntryButton extends OptionsListWidget.Entry {
+
+    private final String title;
+    private final C_0818095 button;
+
+    public OptionsEntryButton(String title, C_0818095 button) {
+        this.title = I18n.translate(title);
+        this.button = button;
+        button.setMessage(this.title);
+    }
+
+    @Override
+    public void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        client.textRenderer.drawWithShadow(title, rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
+        this.button.x = rowLeft + 135;
+        this.button.y = rowTop + height / 6;
+        this.button.render(mouseX, mouseY, deltaTime);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseY, double mouseX, int button) {
+        if (button == 0 && this.button.isHovered()) {
+            this.button.playDownSound(Minecraft.getInstance().getSoundManager());
+            this.button.onPress();
+            return true;
+        }
+
+        return false;
+    }
+}

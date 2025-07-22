@@ -4,11 +4,12 @@
   "package": "mcp.mobius.waila.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "server.MixinCommandManager"
   ],
   "client": [
-    "client.MixinMinecraftClient",
     "client.MixinGameRenderer",
-    "client.MixinItemStack"
+    "client.MixinItemStack",
+    "client.MixinMinecraftClient"
   ],
   "server": [
     "server.MixinPlayerManager"

@@ -27,16 +27,21 @@
     "waila.mixins.json"
   ],
 
-  "name": "Hwyla",
-  "description": "What am I looking at?",
+  "name": "Ailas",
+  "description": "Am I looking at something?",
   "icon": "assets/waila/icon.png",
   "contact": {
-    "homepage": "https://minecraft.curseforge.com/projects/hwyla",
-    "issues": "https://github.com/TehNut/Hwyla/issues",
-    "sources": "https://github.com/TehNut/Hwyla"
+    "issues": "https://github.com/danilwhale/ailas/issues",
+    "sources": "https://github.com/danilwhale/ailas"
   },
   "license": "CC BY NC SA 4.0",
   "authors": [
+    {
+      "name": "danilwhale",
+      "contact": {
+        "homepage": "https://danilwhale.github.io"
+      }
+    },
     {
       "name": "Nicholas \"TehNut\" Ignoffo",
       "contact": {
@@ -51,38 +56,14 @@
       }
     }
   ],
-  "contributors": [
-    "InsomniaKitten",
-    "Girafi",
-    "Vexatos",
-    "gigabit101",
-    "Lordmau5",
-    "MrNinja93",
-    "tambry",
-    "magik6k",
-    "Parker8283",
-    "Sven792",
-    "3TUSK",
-    "Foxgreat",
-    "josephcsible",
-    "RCXcrafter",
-    "shadowfacts",
-    "X00LA",
-    "crafteverywhere",
-    "SinusoidalC",
-    "viliml",
-    "Eracer",
-    "odininon",
-    "Artoria2e5",
-    "plusls"
-  ],
+  "contributors": [],
 
   "depends": {
     "fabricloader": ">=0.15.0",
     "minecraft": "1.14.4",
-    "osl-entrypoints": ">=0.4.0",
-    "osl-networking": ">=0.4.0",
-    "osl-keybinds": ">=0.1.0"
+    "osl-entrypoints": ">=0.4.3",
+    "osl-networking": ">=0.8.0",
+    "osl-keybinds": ">=0.1.2"
   },
   "suggests": {
     "modmenu": "*"

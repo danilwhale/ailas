@@ -31,20 +31,20 @@ public class WailaClient implements ClientModInitializer {
 			registry.register(showOverlay);
 			registry.register(toggleLiquid);
 		});
-
-        if (FabricLoader.getInstance().isModLoaded("modmenu") && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            enableModMenuConfig();
+//
+//        if (FabricLoader.getInstance().isModLoaded("modmenu") && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+//            enableModMenuConfig();
     }
 
-    private static void enableModMenuConfig() {
-        try {
-            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.ModMenu");
-            Method addConfigOverride_ = modMenuApi_.getMethod("addLegacyConfigScreenTask", String.class, Runnable.class);
-            addConfigOverride_.invoke(null, Waila.MODID, (Runnable) () -> Minecraft.getInstance().openScreen(new GuiConfigHome(null)));
-        } catch (Exception e) {
-            Waila.LOGGER.error("Error enabling the Mod Menu config button for Hwyla", e);
-        }
-    }
+//    private static void enableModMenuConfig() {
+//        try {
+//            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.ModMenu");
+//            Method addConfigOverride_ = modMenuApi_.getMethod("addLegacyConfigScreenTask", String.class, Runnable.class);
+//            addConfigOverride_.invoke(null, Waila.MODID, (Runnable) () -> Minecraft.getInstance().openScreen(new GuiConfigHome(null)));
+//        } catch (Exception e) {
+//            Waila.LOGGER.error("Error enabling the Mod Menu config button for Hwyla", e);
+//        }
+//    }
 
     public static void handleKeybinds() {
         if (openConfig == null || showOverlay == null || toggleLiquid == null)

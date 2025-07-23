@@ -18,13 +18,13 @@ public class ClientNetworkHandler {
     public static final Identifier GET_CONFIG = new Identifier(Waila.MODID, "send_config");
 
     public static void init() {
-        ClientPlayNetworking.registerListener(ClientNetworkHandler.RECEIVE_DATA, (minecraft, handler, data) -> {
+        ClientPlayNetworking.registerListenerAsync(ClientNetworkHandler.RECEIVE_DATA, (minecraft, handler, data) -> {
 			NbtCompound tag = data.readNbtCompound();
 			minecraft.execute(() -> DataAccessor.INSTANCE.setServerData(tag));
 			return true;
 		});
 
-		ClientPlayNetworking.registerListener(ClientNetworkHandler.GET_CONFIG, (minecraft, handler, data) -> {
+		ClientPlayNetworking.registerListenerAsync(ClientNetworkHandler.GET_CONFIG, (minecraft, handler, data) -> {
 			int size = data.readInt();
 			Map<Identifier, Boolean> temp = Maps.newHashMap();
 			for (int i = 0; i < size; i++) {

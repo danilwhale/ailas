@@ -32,7 +32,7 @@ public class NetworkHandler {
     public static final Identifier REQUEST_TILE = new Identifier(Waila.MODID, "request_tile");
 
     public static void init() {
-		ServerPlayNetworking.registerListener(REQUEST_ENTITY, (server, handler, player, data) -> {
+		ServerPlayNetworking.registerListenerAsync(REQUEST_ENTITY, (server, handler, player, data) -> {
 			World world = player.world;
 			Entity entity = world.getEntity(data.readInt());
 			server.execute(() -> {
@@ -54,7 +54,7 @@ public class NetworkHandler {
 			});
 			return true;
 		});
-		ServerPlayNetworking.registerListener(REQUEST_TILE, (server, handler, player, data) -> {
+		ServerPlayNetworking.registerListenerAsync(REQUEST_TILE, (server, handler, player, data) -> {
 			World world = player.world;
 			BlockPos pos = data.readBlockPos();
 
